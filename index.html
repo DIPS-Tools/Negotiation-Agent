@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Negotiation API UI</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      background: #f0f2f5;
+    }
+
+    .container {
+      max-width: 1450px;
+      margin: 24px auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      margin: 0 0 14px 0;
+    }
+
+    .section {
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .dataset {
+      background: #e6f4ea;
+      border-left: 6px solid #34a853;
+    }
+
+    .consumer {
+      background: #e8f0fe;
+      border-left: 6px solid #1a73e8;
+    }
+
+    .provider {
+      background: #fff8e1;
+      border-left: 6px solid #fbbc04;
+    }
+
+    .result-section {
+      background: white;
+      border-left: 6px solid #6c757d;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .pair-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .single-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .dataset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .utility-card {
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .utility-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .utility-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: #111;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 90%;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background: white;
+      box-sizing: border-box;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+    }
+
+    input[type="range"] {
+      width: 90%;
+      padding: 0;
+    }
+
+    .slider-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .slider-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      width: 90%;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #555;
+      margin-top: 4px;
+      width: 90%;
+    }
+
+    pre {
+      background: #111;
+      color: #00ff88;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 8px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 8px;
+      background: #007bff;
+      color: white;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    @media (max-width: 1000px) {
+      .row,
+      .dataset-grid,
+      .pair-row,
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+
+      input, select, textarea, input[type="range"], .slider-value, .hint {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<datalist id="actionOptions">
+  <option value="odrl:annotate">
+  <option value="odrl:anonymize">
+  <option value="odrl:append">
+  <option value="odrl:archive">
+  <option value="odrl:attachPolicy">
+  <option value="odrl:attachSource">
+  <option value="odrl:commercialize">
+  <option value="odrl:compensate">
+  <option value="odrl:copy">
+  <option value="odrl:delete">
+  <option value="odrl:digitize">
+  <option value="odrl:display">
+  <option value="odrl:distribute">
+  <option value="odrl:execute">
+  <option value="odrl:export">
+  <option value="odrl:extract">
+  <option value="odrl:give">
+  <option value="odrl:grantUse">
+  <option value="odrl:include">
+  <option value="odrl:index">
+  <option value="odrl:inform">
+  <option value="odrl:install">
+  <option value="odrl:modify">
+  <option value="odrl:move">
+  <option value="odrl:pay">
+  <option value="odrl:play">
+  <option value="odrl:present">
+  <option value="odrl:preview">
+  <option value="odrl:print">
+  <option value="odrl:read">
+  <option value="odrl:reproduce">
+  <option value="odrl:sell">
+  <option value="odrl:share">
+  <option value="odrl:transfer">
+  <option value="odrl:transform">
+  <option value="odrl:translate">
+  <option value="odrl:use">
+</datalist>
+
+<datalist id="purposeOptions">
+  <option value="dpv:AcademicResearch">
+  <option value="dpv:AccountManagement">
+  <option value="dpv:Advertising">
+  <option value="dpv:AgeVerification">
+  <option value="dpv:CombatClimateChange">
+  <option value="dpv:CommercialPurpose">
+  <option value="CommercialResearch">
+  <option value="dpv:CommunicationForCustomerCare">
+  <option value="dpv:CommunicationManagement">
+  <option value="dpv:DirectMarketing">
+  <option value="dpv:Marketing">
+  <option value="dpv:Personalisation">
+  <option value="dpv:PersonalisedAdvertising">
+  <option value="dpv:PersonalisedBenefits">
+  <option value="dpv:PersonnelBehaviourMonitoring">
+  <option value="TargetedAdvertising">
+  <option value="dpv:TechnicalServiceProvision">
+  <option value="dpv:UserInterfacePersonalisation">
+</datalist>
+
+<datalist id="thirdPartyOptions">
+  <option value="None">
+  <option value="dpv:Entity">
+  <option value="dpv:NaturalPerson">
+  <option value="dpv:LegalEntity">
+  <option value="dpv:Organisation">
+  <option value="dpv:Authority">
+  <option value="dpv:SupervisoryAuthority">
+  <option value="dpv:DataController">
+  <option value="dpv:JointDataControllers">
+  <option value="dpv:DataProcessor">
+  <option value="dpv:DataSubProcessor">
+  <option value="dpv:DataProtectionOfficer">
+  <option value="dpv:Representative">
+  <option value="dpv:Recipient">
+  <option value="dpv:ThirdParty">
+  <option value="dpv:DataImporter">
+  <option value="dpv:DataExporter">
+  <option value="dpv:ServiceProvider">
+  <option value="dpv:ServiceConsumer">
+  <option value="dpv:Client">
+  <option value="dpv:User">
+  <option value="dpv:Member">
+  <option value="dpv:Partner">
+  <option value="dpv:Supplier">
+</datalist>
+
+<div class="container">
+  <h1>Negotiation API UI</h1>
+
+  <div class="section dataset">
+    <h2>Dataset</h2>
+    <div class="dataset-grid">
+      <div class="field">
+        <label for="dataset_name">Name</label>
+        <input id="dataset_name" value="mydataset">
+      </div>
+      <div class="field">
+        <label for="items">Items</label>
+        <input id="items" value="name,age,job,salary,address">
+        <div class="hint">Comma separated</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="section consumer">
+      <h2>Consumer Preference</h2>
+
+      <div class="single-row">
+        <div class="field">
+          <label for="c_rule_type">Rule Type</label>
+          <select id="c_rule_type">
+            <option value="permission">permission</option>
+            <option value="prohibition">prohibition</option>
+            <option value="obligation">obligation</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="c_type_weight">Type Weight</label>
+          <input type="range" id="c_type_weight" min="0" max="10" step="1" value="10" oninput="updateSliderValue('c_type_weight')">
+          <div class="slider-value" id="c_type_weight_value">10</div>
+        </div>
+      </div>
+
+      <div class="pair-row">
+        <div class="field">
+          <label for="c_lower_query">Lower Query</label>
+          <input id="c_lower_query" value="age,job,salary">
+          <div class="hint">Comma separated</div>
+        </div>
+        <div class="field">
+          <label for="c_upper_query">Upper Query</label>
+          <input id="c_upper_query" value="name,age,job,salary,address">
+          <div class="hint">Comma separated</div>
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="c_query_weight">Query Weight</label>
+          <input type="range" id="c_query_weight" min="0" max="10" step="1" value="10" oninput="updateSliderValue('c_query_weight')">
+          <div class="slider-value" id="c_query_weight_value">10</div>
+        </div>
+      </div>
+
+      <div class="pair-row">
+        <div class="field">
+          <label for="c_lower_duration">Lower Duration</label>
+          <input id="c_lower_duration" type="number" value="60">
+        </div>
+        <div class="field">
+          <label for="c_upper_duration">Upper Duration</label>
+          <input id="c_upper_duration" type="number" value="90">
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="c_duration_weight">Duration Weight</label>
+          <input type="range" id="c_duration_weight" min="0" max="10" step="1" value="3" oninput="updateSliderValue('c_duration_weight')">
+          <div class="slider-value" id="c_duration_weight_value">3</div>
+        </div>
+      </div>
+
+      <div class="pair-row">
+        <div class="field">
+          <label for="c_lower_action">Lower Action</label>
+          <input id="c_lower_action" list="actionOptions" value="odrl:display">
+        </div>
+        <div class="field">
+          <label for="c_upper_action">Upper Action</label>
+          <input id="c_upper_action" list="actionOptions" value="odrl:copy">
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="c_action_weight">Action Weight</label>
+          <input type="range" id="c_action_weight" min="0" max="10" step="1" value="8" oninput="updateSliderValue('c_action_weight')">
+          <div class="slider-value" id="c_action_weight_value">8</div>
+        </div>
+      </div>
+
+      <div class="pair-row">
+        <div class="field">
+          <label for="c_lower_purpose">Lower Purpose</label>
+          <input id="c_lower_purpose" list="purposeOptions" value="dpv:DirectMarketing">
+        </div>
+        <div class="field">
+          <label for="c_upper_purpose">Upper Purpose</label>
+          <input id="c_upper_purpose" list="purposeOptions" value="dpv:CommercialPurpose">
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="c_purpose_weight">Purpose Weight</label>
+          <input type="range" id="c_purpose_weight" min="0" max="10" step="1" value="8" oninput="updateSliderValue('c_purpose_weight')">
+          <div class="slider-value" id="c_purpose_weight_value">8</div>
+        </div>
+      </div>
+
+      <div class="pair-row">
+        <div class="field">
+          <label for="c_lower_third_party">Lower Third Party</label>
+          <input id="c_lower_third_party" list="thirdPartyOptions" value="None">
+        </div>
+        <div class="field">
+          <label for="c_upper_third_party">Upper Third Party</label>
+          <input id="c_upper_third_party" list="thirdPartyOptions" value="dpv:Organisation">
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="c_third_party_weight">Third Party Weight</label>
+          <input type="range" id="c_third_party_weight" min="0" max="10" step="1" value="2" oninput="updateSliderValue('c_third_party_weight')">
+          <div class="slider-value" id="c_third_party_weight_value">2</div>
+        </div>
+      </div>
+
+      <div class="pair-row">
+        <div class="field">
+          <label for="c_lower_price">Lower Price</label>
+          <input id="c_lower_price" type="number" step="0.01" value="10">
+        </div>
+        <div class="field">
+          <label for="c_upper_price">Upper Price</label>
+          <input id="c_upper_price" type="number" step="0.01" value="90">
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="c_price_weight">Price Weight</label>
+          <input type="range" id="c_price_weight" min="0" max="10" step="1" value="10" oninput="updateSliderValue('c_price_weight')">
+          <div class="slider-value" id="c_price_weight_value">10</div>
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="c_proposal_utility">Proposal Utility</label>
+          <input type="range" id="c_proposal_utility" min="0" max="10" step="1" value="8" oninput="updateSliderValue('c_proposal_utility')">
+          <div class="slider-value" id="c_proposal_utility_value">8</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section provider">
+      <h2>Providor Preference</h2>
+
+      <div class="single-row">
+        <div class="field">
+          <label for="p_rule_type">Rule Type</label>
+          <select id="p_rule_type">
+            <option value="permission">permission</option>
+            <option value="prohibition">prohibition</option>
+            <option value="obligation">obligation</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="p_type_weight">Type Weight</label>
+          <input type="range" id="p_type_weight" min="0" max="10" step="1" value="10" oninput="updateSliderValue('p_type_weight')">
+          <div class="slider-value" id="p_type_weight_value">10</div>
+        </div>
+      </div>
+
+      <div class="pair-row">
+        <div class="field">
+          <label for="p_lower_query">Lower Query</label>
+          <input id="p_lower_query" value="job,salary">
+          <div class="hint">Comma separated</div>
+        </div>
+        <div class="field">
+          <label for="p_upper_query">Upper Query</label>
+          <input id="p_upper_query" value="age,job,salary">
+          <div class="hint">Comma separated</div>
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="p_query_weight">Query Weight</label>
+          <input type="range" id="p_query_weight" min="0" max="10" step="1" value="10" oninput="updateSliderValue('p_query_weight')">
+          <div class="slider-value" id="p_query_weight_value">10</div>
+        </div>
+      </div>
+
+      <div class="pair-row">
+        <div class="field">
+          <label for="p_lower_duration">Lower Duration</label>
+          <input id="p_lower_duration" type="number" value="30">
+        </div>
+        <div class="field">
+          <label for="p_upper_duration">Upper Duration</label>
+          <input id="p_upper_duration" type="number" value="75">
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="p_duration_weight">Duration Weight</label>
+          <input type="range" id="p_duration_weight" min="0" max="10" step="1" value="5" oninput="updateSliderValue('p_duration_weight')">
+          <div class="slider-value" id="p_duration_weight_value">5</div>
+        </div>
+      </div>
+
+      <div class="pair-row">
+        <div class="field">
+          <label for="p_lower_action">Lower Action</label>
+          <input id="p_lower_action" list="actionOptions" value="odrl:display">
+        </div>
+        <div class="field">
+          <label for="p_upper_action">Upper Action</label>
+          <input id="p_upper_action" list="actionOptions" value="odrl:display">
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="p_action_weight">Action Weight</label>
+          <input type="range" id="p_action_weight" min="0" max="10" step="1" value="9" oninput="updateSliderValue('p_action_weight')">
+          <div class="slider-value" id="p_action_weight_value">9</div>
+        </div>
+      </div>
+
+      <div class="pair-row">
+        <div class="field">
+          <label for="p_lower_purpose">Lower Purpose</label>
+          <input id="p_lower_purpose" list="purposeOptions" value="">
+        </div>
+        <div class="field">
+          <label for="p_upper_purpose">Upper Purpose</label>
+          <input id="p_upper_purpose" list="purposeOptions" value="dpv:PersonalisedAdvertising">
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="p_purpose_weight">Purpose Weight</label>
+          <input type="range" id="p_purpose_weight" min="0" max="10" step="1" value="9" oninput="updateSliderValue('p_purpose_weight')">
+          <div class="slider-value" id="p_purpose_weight_value">9</div>
+        </div>
+      </div>
+
+      <div class="pair-row">
+        <div class="field">
+          <label for="p_lower_third_party">Lower Third Party</label>
+          <input id="p_lower_third_party" list="thirdPartyOptions" value="None">
+        </div>
+        <div class="field">
+          <label for="p_upper_third_party">Upper Third Party</label>
+          <input id="p_upper_third_party" list="thirdPartyOptions" value="None">
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="p_third_party_weight">Third Party Weight</label>
+          <input type="range" id="p_third_party_weight" min="0" max="10" step="1" value="2" oninput="updateSliderValue('p_third_party_weight')">
+          <div class="slider-value" id="p_third_party_weight_value">2</div>
+        </div>
+      </div>
+
+      <div class="pair-row">
+        <div class="field">
+          <label for="p_lower_price">Lower Price</label>
+          <input id="p_lower_price" type="number" step="0.01" value="80">
+        </div>
+        <div class="field">
+          <label for="p_upper_price">Upper Price</label>
+          <input id="p_upper_price" type="number" step="0.01" value="150">
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="p_price_weight">Price Weight</label>
+          <input type="range" id="p_price_weight" min="0" max="10" step="1" value="10" oninput="updateSliderValue('p_price_weight')">
+          <div class="slider-value" id="p_price_weight_value">10</div>
+        </div>
+      </div>
+
+      <div class="single-row">
+        <div class="field slider-wrap">
+          <label for="p_proposal_utility">Proposal Utility</label>
+          <input type="range" id="p_proposal_utility" min="0" max="10" step="1" value="8" oninput="updateSliderValue('p_proposal_utility')">
+          <div class="slider-value" id="p_proposal_utility_value">8</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button onclick="sendRequest()">Send Request</button>
+
+  <div class="section result-section">
+    <h2>Negotiation Result</h2>
+
+    <div class="result-grid">
+      <div class="utility-card">
+        <div class="utility-title">Consumer Final Utility</div>
+        <div class="utility-value" id="consumer_final_utility">N/A</div>
+      </div>
+
+      <div class="utility-card">
+        <div class="utility-title">Provider Final Utility</div>
+        <div class="utility-value" id="provider_final_utility">N/A</div>
+      </div>
+    </div>
+
+    <pre id="response">No response yet.</pre>
+  </div>
+</div>
+
+<script>
+function list(v) {
+  return v.split(",").map(x => x.trim()).filter(x => x !== "");
+}
+
+function num(id) {
+  return Number(document.getElementById(id).value);
+}
+
+function val(id) {
+  return document.getElementById(id).value;
+}
+
+function updateSliderValue(id) {
+  document.getElementById(id + "_value").textContent = document.getElementById(id).value;
+}
+
+function initSliders() {
+  const sliderIds = [
+    "c_type_weight", "c_query_weight", "c_duration_weight", "c_action_weight",
+    "c_purpose_weight", "c_third_party_weight", "c_price_weight", "c_proposal_utility",
+    "p_type_weight", "p_query_weight", "p_duration_weight", "p_action_weight",
+    "p_purpose_weight", "p_third_party_weight", "p_price_weight", "p_proposal_utility"
+  ];
+  sliderIds.forEach(updateSliderValue);
+}
+
+function buildPayload() {
+  return {
+    dataset: {
+      name: val("dataset_name"),
+      items: list(val("items"))
+    },
+    consumer_preference: {
+      rule_type: val("c_rule_type"),
+      type_weight: num("c_type_weight"),
+      lower_query: list(val("c_lower_query")),
+      upper_query: list(val("c_upper_query")),
+      query_weight: num("c_query_weight"),
+      upper_duration: num("c_upper_duration"),
+      lower_duration: num("c_lower_duration"),
+      duration_weight: num("c_duration_weight"),
+      upper_action: val("c_upper_action"),
+      lower_action: val("c_lower_action"),
+      action_weight: num("c_action_weight"),
+      upper_purpose: val("c_upper_purpose"),
+      lower_purpose: val("c_lower_purpose"),
+      purpose_weight: num("c_purpose_weight"),
+      upper_third_party: val("c_upper_third_party"),
+      lower_third_party: val("c_lower_third_party"),
+      third_party_weight: num("c_third_party_weight"),
+      upper_price: num("c_upper_price"),
+      lower_price: num("c_lower_price"),
+      price_weight: num("c_price_weight"),
+      proposal_utility: num("c_proposal_utility")
+    },
+    providor_preference: {
+      rule_type: val("p_rule_type"),
+      type_weight: num("p_type_weight"),
+      lower_query: list(val("p_lower_query")),
+      upper_query: list(val("p_upper_query")),
+      query_weight: num("p_query_weight"),
+      upper_duration: num("p_upper_duration"),
+      lower_duration: num("p_lower_duration"),
+      duration_weight: num("p_duration_weight"),
+      upper_action: val("p_upper_action"),
+      lower_action: val("p_lower_action"),
+      action_weight: num("p_action_weight"),
+      upper_purpose: val("p_upper_purpose"),
+      lower_purpose: val("p_lower_purpose"),
+      purpose_weight: num("p_purpose_weight"),
+      upper_third_party: val("p_upper_third_party"),
+      lower_third_party: val("p_lower_third_party"),
+      third_party_weight: num("p_third_party_weight"),
+      upper_price: num("p_upper_price"),
+      lower_price: num("p_lower_price"),
+      price_weight: num("p_price_weight"),
+      proposal_utility: num("p_proposal_utility")
+    }
+  };
+}
+
+function setUtilityValues(data) {
+  const consumerEl = document.getElementById("consumer_final_utility");
+  const providerEl = document.getElementById("provider_final_utility");
+
+  const consumerUtility =
+    data.consumer_final_utility ??
+    data.consumer_utility ??
+    data.consumerUtility ??
+    data.consumerFinalUtility;
+
+  const providerUtility =
+    data.provider_final_utility ??
+    data.providor_final_utility ??
+    data.provider_utility ??
+    data.providor_utility ??
+    data.providerUtility ??
+    data.providerFinalUtility;
+
+  consumerEl.textContent = consumerUtility ?? "N/A";
+  providerEl.textContent = providerUtility ?? "N/A";
+}
+
+async function sendRequest() {
+  const payload = buildPayload();
+  const responseBox = document.getElementById("response");
+  responseBox.textContent = "Loading...";
+
+  document.getElementById("consumer_final_utility").textContent = "Loading...";
+  document.getElementById("provider_final_utility").textContent = "Loading...";
+
+  try {
+    const res = await fetch("/NegotiationRequest", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const text = await res.text();
+
+    try {
+      const data = JSON.parse(text);
+      responseBox.textContent = JSON.stringify(data, null, 2);
+      setUtilityValues(data);
+    } catch {
+      responseBox.textContent = "HTTP " + res.status + "\\n\\n" + text;
+      document.getElementById("consumer_final_utility").textContent = "N/A";
+      document.getElementById("provider_final_utility").textContent = "N/A";
+    }
+  } catch (err) {
+    responseBox.textContent = "Request failed:\\n\\n" + err;
+    document.getElementById("consumer_final_utility").textContent = "N/A";
+    document.getElementById("provider_final_utility").textContent = "N/A";
+  }
+}
+
+initSliders();
+</script>
+
+</body>
+</html>

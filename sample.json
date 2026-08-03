@@ -1,0 +1,58 @@
+{
+  "dataset": {
+    "name": "mydataset",
+    "items": [
+      "name",
+      "age",
+      "job",
+      "salary",
+      "address"
+    ]
+  },
+  "consumer_preference": {
+    "rule_type": "permission",
+    "type_weight": 10,
+    "lower_query": ["age", "job", "salary"],
+    "upper_query": ["name", "age", "job", "salary", "address"],
+    "query_weight": 10,
+    "upper_duration": 90,
+    "lower_duration": 60,
+    "duration_weight": 3,
+    "upper_action": "copy",
+    "lower_action": "display",
+    "action_weight": 8,
+    "upper_purpose": "CommercialPurpose",
+    "lower_purpose": "DirectMarketing",
+    "purpose_weight": 8,
+    "upper_third_party": "Company",
+    "lower_third_party": "None",
+    "third_party_weight": 2,
+    "upper_price": 100,
+    "lower_price": 10,
+    "price_weight": 10,
+    "proposal_utility": 8
+  },
+  "providor_preference": {
+    "rule_type": "permission",
+    "type_weight": 10,
+    "lower_query": ["job", "salary"],
+    "upper_query": ["age", "job", "salary"],
+    "query_weight": 10,
+    "upper_duration": 75,
+    "lower_duration": 30,
+    "duration_weight": 5,
+    "upper_action": "display",
+    "lower_action": "display",
+    "action_weight": 9,
+    "upper_purpose": "PersonalisedAdvertising",
+    "lower_purpose": "",
+    "purpose_weight": 9,
+    "upper_third_party": "None",
+    "lower_third_party": "None",
+    "third_party_weight": 2,
+    "upper_price": 150,
+    "lower_price": 80,
+    "price_weight": 10,
+    "proposal_utility": 8
+  }
+}
